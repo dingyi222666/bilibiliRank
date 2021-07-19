@@ -21,12 +21,11 @@ object RankRepository {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    fun getVideoRank(partitionName: String): Flow<RankJsonBean> = flow {
+    fun queryVideoRank(partitionName: String): Flow<RankJsonBean> = flow {
 
         val rankApi = retrofit.create(RankApi::class.java)
         partitionData.find { it.first == partitionName }?.let {
             val data = rankApi.getVideoRank(it.second)
-
             emit(data)
         }
 

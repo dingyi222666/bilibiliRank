@@ -35,3 +35,23 @@ fun Int.formatNumber(): String {
     }
 
 }
+
+class Result<T>(private val isNullable: Boolean = false, private val self: T?) {
+    fun nullable(block: () -> Unit): Result<T> {
+        if (isNullable)
+            block.invoke()
+
+        return this
+    }
+
+    fun notNullable(block: (T) -> Unit): Result<T> {
+        if (!isNullable)
+            self?.apply(block)
+        return this
+    }
+
+}
+
+fun <T> checkIsNullable(self: T?, block: (T) -> Unit = {}): Result<T> {
+    return Result(self == null, self).notNullable(block)
+}

@@ -1,16 +1,20 @@
 package com.dingyi.bilibilirank.ui.fragment
 
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dingyi.bilibilirank.bean.Info
 import com.dingyi.bilibilirank.databinding.FragmentRankBinding
 import com.dingyi.bilibilirank.ui.adapter.RankListAdapter
 import com.dingyi.bilibilirank.ui.viewmodel.MainViewModel
+import com.dingyi.bilibilirank.util.formatNumber
 import kotlin.properties.Delegates
 
 /**
@@ -25,7 +29,7 @@ class RankFragment() : Fragment() {
     private val viewModel by activityViewModels<MainViewModel>()
 
     private val adapter by lazy {
-        RankListAdapter(viewModel, partitionName)
+        RankListAdapter(viewLifecycleOwner, viewModel, partitionName)
     }
 
     private var partitionName = ""
@@ -39,19 +43,64 @@ class RankFragment() : Fragment() {
     ): View {
 
 
-        val observable = viewModel.setLoadState(partitionName, false)
-
         return FragmentRankBinding.inflate(inflater, container, false)
             .apply {
                 binding = this
-                binding.data = VisibilityData(observable)
-                lifecycleOwner = viewLifecycleOwner
-                list.adapter = adapter
-                list.layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            }.root
+    }
 
-            }
-            .root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    private fun requestRankData() {
+
+        viewModel.requestRank(partitionName)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (viewModel.getRankList(partitionName).value?.isEmpty() == true) {
+            requestRankData()
+        }
+
+    }
+
+    private fun initView() {
+        val observable = viewModel.getLoadState(partitionName)
+
+        binding.apply {
+            binding.data = VisibilityData(observable)
+            lifecycleOwner = viewLifecycleOwner
+            list.adapter = adapter
+            list.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
+
+        adapter.onClickListener = ::showInfoDialog
+
+    }
+
+    private fun showInfoDialog(it: Info) {
+        AlertDialog.Builder(requireActivity())
+            .apply {
+                setTitle(it.title)
+                setMessage(
+                    """
+                        视频标题:${it.title}
+                        up主:${it.author}
+                        弹幕数:${it.video_review.formatNumber()}
+                        综合得分:${it.pts}
+                        时长:${it.duration}
+                        bv号:${it.bvid}
+                    """.trimIndent()
+                )
+                setPositiveButton("前往浏览器查看") { _, _ ->
+
+                }
+            }.show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,16 +108,7 @@ class RankFragment() : Fragment() {
 
         partitionName = requireArguments().getString("partitionName").toString()
 
-        viewModel.requestRank(partitionName) {
-            viewModel.getRankList(partitionName)?.let {
-                adapter.notifyItemRangeInserted(
-                    0,
-                    it.size
-                )
-                adapter.notifyItemRangeChanged(0, it.size)
-            }
 
-        }
     }
 
 

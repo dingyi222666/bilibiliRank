@@ -27,7 +27,7 @@ data class Info(
     val video_review_format: String
         get() = "弹幕：${video_review.formatNumber()}"
 
-    val play_format: String
-        get() = "播放量：${play.formatNumber()}"
+    val pts_format: String
+        get() = "综合得分：${pts.formatNumber()}"
 
 }

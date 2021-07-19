@@ -17,7 +17,6 @@ val partitionData = mutableListOf(
     "生活" to "160",
     "鬼畜" to "119",
     "时尚" to "155",
-    "广告" to "165",
     "娱乐" to "5",
     "电影" to "23",
     "电视" to "11",

@@ -1,9 +1,13 @@
 package com.dingyi.bilibilirank.ui.activity
 
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.dingyi.bilibilirank.R
@@ -58,11 +62,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu,menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
+    private fun showAboutDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("关于")
+            .setMessage(Html.fromHtml(getString(R.string.about_html)))
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
+            .findViewById<TextView>(android.R.id.message)?.apply {
+                movementMethod = LinkMovementMethod.getInstance();
+                isClickable = true;
+            }
+
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.about -> showAboutDialog()
+        }
         return super.onOptionsItemSelected(item)
     }
 
