@@ -10,11 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dingyi.bilibilirank.R
 import com.dingyi.bilibilirank.bean.Info
 import com.dingyi.bilibilirank.databinding.FragmentRankBinding
 import com.dingyi.bilibilirank.ui.adapter.RankListAdapter
 import com.dingyi.bilibilirank.ui.viewmodel.MainViewModel
 import com.dingyi.bilibilirank.util.formatNumber
+import com.dingyi.bilibilirank.util.getAttributeColor
+import com.dingyi.bilibilirank.util.openBrowserUrl
 import kotlin.properties.Delegates
 
 /**
@@ -34,7 +37,7 @@ class RankFragment() : Fragment() {
 
     private var partitionName = ""
 
-    inner class VisibilityData(val data: LiveData<Int>)
+    inner class VisibilityData(val data: LiveData<Boolean>)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +58,6 @@ class RankFragment() : Fragment() {
     }
 
     private fun requestRankData() {
-
         viewModel.requestRank(partitionName)
     }
 
@@ -72,9 +74,19 @@ class RankFragment() : Fragment() {
         val observable = viewModel.getLoadState(partitionName)
 
         binding.apply {
-            binding.data = VisibilityData(observable)
+            data = VisibilityData(observable)
             lifecycleOwner = viewLifecycleOwner
             list.adapter = adapter
+            refresh.let {
+                it.setColorSchemeColors(
+                    requireContext().getAttributeColor(R.attr.colorPrimary)
+                )
+                it.setOnRefreshListener {
+                    if (viewModel.getLoadState(partitionName).value == false) {
+                       requestRankData()
+                    }
+                }
+            }
             list.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
@@ -98,7 +110,7 @@ class RankFragment() : Fragment() {
                     """.trimIndent()
                 )
                 setPositiveButton("前往浏览器查看") { _, _ ->
-
+                    requireActivity().openBrowserUrl("https://bilibili.com/video/${it.bvid}")
                 }
             }.show()
     }

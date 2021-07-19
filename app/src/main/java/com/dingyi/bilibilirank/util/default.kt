@@ -1,5 +1,11 @@
 package com.dingyi.bilibilirank.util
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.Intent.*
+import android.net.Uri
+import android.os.Build
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.dingyi.bilibilirank.MainApplication
@@ -40,7 +46,6 @@ class Result<T>(private val isNullable: Boolean = false, private val self: T?) {
     fun nullable(block: () -> Unit): Result<T> {
         if (isNullable)
             block.invoke()
-
         return this
     }
 
@@ -55,3 +60,30 @@ class Result<T>(private val isNullable: Boolean = false, private val self: T?) {
 fun <T> checkIsNullable(self: T?, block: (T) -> Unit = {}): Result<T> {
     return Result(self == null, self).notNullable(block)
 }
+
+fun Context.getAttributeColor(resId: Int): Int {
+    val typedArray = obtainStyledAttributes(intArrayOf(resId))
+    val color = typedArray.getColor(0, 0)
+    typedArray.recycle()
+    return color
+}
+
+
+inline val openBrowserUrl: Activity.(String) -> Unit
+    get() = { url ->
+
+        val targetIntent = Intent(ACTION_VIEW, Uri.parse(url))
+        targetIntent.apply {
+            // 非浏览器应用会直接处理该 URL（默认情况下）
+            // 用户也可以在消除歧义对话框中选择非浏览器应用
+            addCategory(CATEGORY_BROWSABLE)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                flags = FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_REQUIRE_NON_BROWSER
+            }
+        }.runCatching {
+           startActivity(this)
+        }.onFailure {
+           startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
+        }
+    }
+

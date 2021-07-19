@@ -26,22 +26,22 @@ class MainViewModel : ViewModel() {
         mutableMapOf<String, MutableLiveData<List<Info>>>()
     }
 
-    private val loadStateList = mutableMapOf<String, MutableLiveData<Int>>()
+    private val loadStateList = mutableMapOf<String, MutableLiveData<Boolean>>()
 
 
-    private fun setLoadState(type: String, flags: Boolean): LiveData<Int> {
-        val base = if (flags) View.GONE else View.VISIBLE
-        val data = loadStateList[type] ?: MutableLiveData(base)
-        data.value = base
+    private fun setLoadState(type: String, flags: Boolean): LiveData<Boolean> {
+        val data = loadStateList[type] ?: MutableLiveData(!flags)
+        data.value = !flags
         loadStateList[type] = data
         return data
 
     }
 
 
-    fun getLoadState(type: String): LiveData<Int> {
+    fun getLoadState(type: String): LiveData<Boolean> {
         return loadStateList[type] ?: setLoadState(type, false)
     }
+
 
 
     fun getRankList(type: String): LiveData<List<Info>> {
@@ -51,7 +51,7 @@ class MainViewModel : ViewModel() {
     }
 
 
-    fun requestRank(partitionName: String) {
+    fun requestRank(partitionName: String,block:()->Unit={}) {
         viewModelScope.launch(Dispatchers.Main) {
             RankRepository
                 .queryVideoRank(partitionName)
@@ -65,10 +65,10 @@ class MainViewModel : ViewModel() {
                         "请求出错：$error",
                         Toast.LENGTH_LONG
                     ).show()
-                    setLoadState(partitionName, false)
+                    setLoadState(partitionName, true)
                 }.onCompletion {
                     setLoadState(partitionName, true)
-
+                    block()
                 }.collect { data ->
                     checkIsNullable(rankList[partitionName]) {
                         it.postValue(data.rank.list)
