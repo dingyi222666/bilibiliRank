@@ -1,10 +1,6 @@
 package com.dingyi.bilibilirank
 
-import com.dingyi.bilibilirank.repository.RankRepository
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

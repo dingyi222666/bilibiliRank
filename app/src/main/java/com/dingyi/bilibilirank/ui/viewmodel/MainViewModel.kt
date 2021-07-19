@@ -1,7 +1,6 @@
 package com.dingyi.bilibilirank.ui.viewmodel
 
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -43,7 +42,6 @@ class MainViewModel : ViewModel() {
     }
 
 
-
     fun getRankList(type: String): LiveData<List<Info>> {
         return rankList[type] ?: MutableLiveData(listOf<Info>()).apply {
             rankList[type] = this
@@ -51,7 +49,7 @@ class MainViewModel : ViewModel() {
     }
 
 
-    fun requestRank(partitionName: String,block:()->Unit={}) {
+    fun requestRank(partitionName: String, block: () -> Unit = {}) {
         viewModelScope.launch(Dispatchers.Main) {
             RankRepository
                 .queryVideoRank(partitionName)

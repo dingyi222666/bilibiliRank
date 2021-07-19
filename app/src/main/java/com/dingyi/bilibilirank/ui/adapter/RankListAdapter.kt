@@ -60,7 +60,7 @@ class RankListAdapter(
         }
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldItem[oldItemPosition]=== newItem[newItemPosition]
+            return oldItem[oldItemPosition] === newItem[newItemPosition]
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
@@ -108,7 +108,7 @@ class RankListAdapter(
     }
 
     private fun notifyDataChanged() {
-        DiffUtil.calculateDiff(RefreshCallBack(),false).dispatchUpdatesTo(this)
+        DiffUtil.calculateDiff(RefreshCallBack(), false).dispatchUpdatesTo(this)
     }
 
 

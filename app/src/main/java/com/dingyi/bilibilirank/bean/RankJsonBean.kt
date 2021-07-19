@@ -1,7 +1,6 @@
 package com.dingyi.bilibilirank.bean
 
 
-
 data class RankJsonBean(
     val rank: Rank
 ) {

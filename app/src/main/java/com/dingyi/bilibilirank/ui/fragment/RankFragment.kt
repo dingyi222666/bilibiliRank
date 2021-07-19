@@ -83,7 +83,7 @@ class RankFragment() : Fragment() {
                 )
                 it.setOnRefreshListener {
                     if (viewModel.getLoadState(partitionName).value == false) {
-                       requestRankData()
+                        requestRankData()
                     }
                 }
             }

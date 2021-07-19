@@ -12,7 +12,10 @@ import retrofit2.http.Query
 interface RankApi {
 
     @GET("video_ranking")
-    suspend fun getVideoRank(@Query("type") type:String,@Query("duration") duration:Int=3):RankJsonBean
+    suspend fun getVideoRank(
+        @Query("type") type: String,
+        @Query("duration") duration: Int = 3
+    ): RankJsonBean
 
 
 }

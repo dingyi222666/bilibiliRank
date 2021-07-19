@@ -27,8 +27,8 @@ inline fun <reified T : Fragment>
     }
 
 
-private val numberFormat=NumberFormat.getNumberInstance().apply {
-    maximumFractionDigits=2
+private val numberFormat = NumberFormat.getNumberInstance().apply {
+    maximumFractionDigits = 2
 }
 
 fun Int.formatNumber(): String {
@@ -81,9 +81,9 @@ inline val openBrowserUrl: Activity.(String) -> Unit
                 flags = FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_REQUIRE_NON_BROWSER
             }
         }.runCatching {
-           startActivity(this)
+            startActivity(this)
         }.onFailure {
-           startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
+            startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
         }
     }
 

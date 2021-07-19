@@ -8,12 +8,12 @@ import kotlin.properties.Delegates
  * @date: 2021/7/19 2:58
  * @description:
  **/
-class MainApplication: Application() {
+class MainApplication : Application() {
 
 
     override fun onCreate() {
         super.onCreate()
-        application=this
+        application = this
     }
 
     companion object {

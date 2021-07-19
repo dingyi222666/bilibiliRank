@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="info"
             type="com.dingyi.bilibilirank.bean.Info" />
@@ -12,63 +13,63 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
         android:clickable="true"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:background="?selectableItemBackground">
+        android:paddingBottom="8dp">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image"
             android:layout_width="0dp"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_height="76dp"
-            tools:src="@mipmap/ic_launcher"
-            app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent="0.3"
             android:layout_marginLeft="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:id="@+id/image" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.3"
+            tools:src="@mipmap/ic_launcher" />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
-            android:text="@{info.title}"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="我牛死了"
-            android:maxLines="2"
-            android:ellipsize="end"
-            app:layout_constrainedWidth="true"
-            android:textSize="15sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{info.title}"
             android:textColor="?colorOnSecondary"
+            android:textSize="15sp"
+            app:layout_constrainedWidth="true"
             app:layout_constraintLeft_toRightOf="@id/image"
-            android:layout_marginLeft="12dp" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="我牛死了" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:text="弹幕：999w"
-            android:text="@{info.video_review_format}"
             android:id="@+id/danmu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
-            app:layout_constraintRight_toRightOf="@id/title"
+            android:text="@{info.video_review_format}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/title"
+            app:layout_constraintRight_toRightOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            tools:text="弹幕：999w" />
 
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/score"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="得分:66666"
-            android:id="@+id/score"
             android:text="@{info.pts_format}"
-            app:layout_constraintRight_toRightOf="@id/title"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/title"
+            app:layout_constraintRight_toRightOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/danmu"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            tools:text="得分:66666" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

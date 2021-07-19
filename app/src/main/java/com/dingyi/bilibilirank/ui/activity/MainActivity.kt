@@ -15,7 +15,6 @@ import com.dingyi.bilibilirank.data.partitionData
 import com.dingyi.bilibilirank.databinding.ActivityMainBinding
 import com.dingyi.bilibilirank.ui.adapter.MainViewPagerAdapter
 import com.dingyi.bilibilirank.ui.viewmodel.MainViewModel
-import com.dingyi.bilibilirank.util.getAttributeColor
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
@@ -52,7 +51,6 @@ class MainActivity : AppCompatActivity() {
             ) { tab, position ->
                 tab.text = partitionData[position].first
             }.attach()
-
 
 
         }
