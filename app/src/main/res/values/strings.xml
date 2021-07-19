@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">bilibiliRank</string>
+    <string name="about_html">"<p>bilibiliRank 一个查看当前bilibili排行榜的(没啥用)工具</p>  <p>本项目其实只是我为了练习mvvm架构测试开发的，第一次写mvvm代码还是比较烂。</p>  <p>本项目使用了<a href="https://hibiapi.lite0.com/docs">HibiAPI</a>作为该项目的api服务端，实在是感谢提供api</p>  <p>本项目的开源地址在<a href="https://github.com/dingyi222666/bilibiliRank">这里</a> 如果你喜欢可以给我一个star，我不胜感激</p> "</string>
+</resources>
